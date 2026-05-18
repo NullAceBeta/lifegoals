@@ -22,11 +22,10 @@ jobs:
         run: npm ci
 
       - name: build
-        run: |
-          npm run build --output-path=docs
+        run: npm run build
           
       - name: list
-        run: ls -la docs
+        run: ls -R dist
 
       - name: docker login
         env:
