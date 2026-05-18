@@ -15,9 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-  ],
+  providers: [],
   bootstrap: [App]
 })
 export class AppModule { }
