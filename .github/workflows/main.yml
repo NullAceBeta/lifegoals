@@ -23,7 +23,7 @@ jobs:
 
       - name: build
         run: npm run build
-          
+        
       - name: list
         run: ls -R dist
 
@@ -33,3 +33,16 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+      # --- ESTE ES EL PASO QUE TE FALTABA ---
+      - name: Download and run the Docker base image
+        run: docker run -d --name http_base httpd
+
+      - name: copy model to the Docker image
+        run: docker cp dist/lifegoals/browser/. http_base:/usr/local/apache2/htdocs
+
+      - name: Build the custom Docker image
+        run: docker commit --change "ENV MODEL_NAME http_base" http_base ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }}
+
+      - name: Docker Push
+        run: docker push ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }}
