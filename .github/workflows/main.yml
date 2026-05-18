@@ -46,3 +46,6 @@ jobs:
 
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USER}}/lifegoals:${{ github.sha }}
+
+      - name: Trigger Render Deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
