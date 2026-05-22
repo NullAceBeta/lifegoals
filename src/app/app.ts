@@ -4,16 +4,24 @@ import { MetasService, Meta } from './metas.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false // Manteniendo la misma estructura de tu CV
+  standalone: false 
 })
 export class App implements OnInit {
   private metasService = inject(MetasService);
   
-  // Usamos Signals de Angular 18 para la lista
+  // Usamos Signals para la lista de metas
   listaMetas = signal<Meta[]>([]);
+  
+  // Nueva señal para controlar la pestaña activa (inicia en 'home')
+  tabActiva = signal<string>('home'); 
 
   ngOnInit() {
     this.cargarMetas();
+  }
+
+  // Método para cambiar de pestaña
+  cambiarTab(tab: string) {
+    this.tabActiva.set(tab);
   }
 
   // Método para refrescar la lista
